@@ -1,0 +1,60 @@
+<link rel="import" href="bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<dom-module id="my-login">
+    <template>
+        <style>
+            :host{
+                height:100%;
+            }
+            a {
+                text-decoration: none;
+                font-size: inherit;
+                color: inherit;
+                @apply(--layout-vertical);
+                @apply(--layout-center-center);
+                border-bottom: 1px solid #222;
+                height: 100%;
+              }
+            paper-button {
+                @apply(--layout-vertical);
+                @apply(--layout-center-center);
+              text-transform: none;
+            }
+        </style>
+        <firebase-auth
+            id="auth"
+            app-name="travelhackersclub"
+            user="{{user}}"
+            status-known="{{statusKnown}}"
+            provider="google">
+        </firebase-auth>
+        <template is="dom-if" if="[[user]]">
+            <h2>Welcome [[user.displayName]]</h2>
+        </template>
+        <paper-button raised on-tap="login" hidden$="[[user]]">Sign in</paper-button>
+        <paper-button on-tap="logout" hidden$="[[!user]]">Sign out</paper-button>
+    </template>
+
+    <script>
+    Polymer({
+        is: 'my-login',
+        properties: {
+            user: {
+                type: Object
+            },
+            statusKnown: {
+                type: Object
+            }
+        },
+        login: function() {
+            return this.$.auth.signInWithPopup();
+            // return this.$.auth.signInAnonymously();
+        },
+        logout: function() {
+            return this.$.auth.signOut();
+        }
+    })
+    </script>
+</dom-module>

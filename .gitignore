@@ -1,0 +1,10 @@
+# bower
+public/bower_components/
+
+# virtualenv
+venv/
+ENV/
+
+*.DS_Store
+
+functions/node_modules
