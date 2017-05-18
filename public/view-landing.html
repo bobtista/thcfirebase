@@ -1,11 +1,11 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="bower_components/polymer/polymer.html"> -->
 <link rel="import" href="bower_components/app-layout/app-layout.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
 
-<dom-module id="landing-page">
+<dom-module id="view-landing">
   <template>
     <style>
       /*:host {
@@ -96,7 +96,7 @@
     <header>
       <h2>Earn free travel, while improving your credit score</h2>
       <p>A step by step walk through, curated for you</p>
-      <paper-button raised class="blue">Sign Up free</paper-button>
+      <paper-button raised class="blue" on-tap="_goClicked">Let's go!</paper-button>
     </header>
     
     
@@ -105,7 +105,7 @@
   <script>
     Polymer({
 
-      is: 'landing-page',
+      is: 'view-landing',
 
       properties: {
         prop1: {
@@ -113,6 +113,10 @@
           value: 'landing-page',
         },
       },
+
+      _goClicked: function(){
+        this.fire('toggleLogin', {clicked: true});
+      }
 
     });
   </script>

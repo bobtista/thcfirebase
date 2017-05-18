@@ -1,15 +1,16 @@
+<link rel="import" href="bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/app-layout/app-layout.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
-<link rel="import" href="bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
-
+<!-- <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="bower_components/app-route/app-location.html">
-<link rel="import" href="bower_components/app-route/app-route.html">
-<link rel="import" href="landing-page.html">
+<link rel="import" href="bower_components/app-route/app-route.html"> -->
+<link rel="import" href="view-landing.html">
 <link rel="import" href="my-login.html">
+<link rel="import" href="view-main.html">
 
 <dom-module id="thc-app">
   <template>
@@ -93,9 +94,8 @@
         color: white !important;
         };
       }  
-
-      
     </style>
+
     <firebase-app
       id="firebase"
       name="travelhackersclub"
@@ -104,7 +104,9 @@
       api-key="AIzaSyBwCbfw-xW2461UQjPI-cKAY1wVaDhTW7w">
     </firebase-app>
     
-    <app-location route="{{route}}" use-hash-as-path id="app-location"></app-location>
+    <!-- for now, using a simple hidden attribute instead of routing -->
+
+    <!-- <app-location route="{{route}}" use-hash-as-path id="app-location"></app-location>
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -112,24 +114,24 @@
         tail="{{subroute}}"
         active="{{pageActive}}"
         id="app-route">
-    </app-route>
+    </app-route> -->
 
     <app-header fixed>
-    <app-toolbar class="toolbar">
-      <span class="left">
-        <paper-icon-button icon="flight-takeoff"></paper-icon-button>
-        <a href="#">Travel Hackers Club</a>
-      </span>
-      <div class="tabs">
-        <!-- <a href="#signin">Sign in</a> -->
-        <my-login></my-login>
-        <!-- <a href="#signup">Create free account</a> -->
-      </div>
-    </app-toolbar>
+      <app-toolbar class="toolbar">
+        <span class="left">
+          <paper-icon-button icon="flight-takeoff"></paper-icon-button>
+          <a href="#">Travel Hackers Club</a>
+        </span>
+        <div class="tabs">
+          <paper-button on-tap="_toggleMain">View main</paper-button>
+          <my-login user={{user}}></my-login>
+        </div>
+      </app-toolbar>
     </app-header>  
-    <iron-pages selected="[[page]]" attr-for-selected="name" id="iron-pages" style="width:100%; height: 100%;">
-    <landing-page name="landing"></landing-page>
-    </iron-pages>
+    <!-- <iron-pages selected="[[page]]" attr-for-selected="name" id="iron-pages" style="width:100%; height: 100%;"> -->
+    <!-- </iron-pages> -->
+    <view-landing hidden$="[[loggedIn]]"></view-landing>
+    <view-main hidden$="[[!loggedIn]]"></view-main>
     
   </template>
 
@@ -139,10 +141,41 @@
       is: 'thc-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'thc-app',
+        // user object will come from child-element my-login
+        user: {
+          type: Object
         },
+
+        // why you no work??????????!!!!!!!!!!!
+        // _computeLoggedIn() will return false, but loggedIn will be undefined
+        loggedIn: {
+          type: Boolean,
+          value: false,
+          computed: '_computeLoggedIn(user)'
+        },
+
+        // app-route stuff if I end up using that
+        // view: {
+        //   type: String,
+        //   reflectToAttribute: true,
+        // },
+        // route:{
+        //   type: Object,
+        // },
+        // routeData:{
+        //   type: Object,
+        // },
+      },
+
+      _computeLoggedIn: function(user){
+        return "undefined" === typeof user;
+      },
+
+      // if I want to use login buttons from child elements my-login or view-landing
+      // do I need to use custom events?
+      listeners: {
+        'login': '_logIn',
+        'logout': '_logOut'
       },
 
     });

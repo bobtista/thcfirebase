@@ -50,10 +50,12 @@
         },
         login: function() {
             return this.$.auth.signInWithPopup();
+            this.fire('toggleLogin')
             // return this.$.auth.signInAnonymously();
         },
         logout: function() {
             return this.$.auth.signOut();
+            this.fire('toggleLogin')
         }
     })
     </script>
