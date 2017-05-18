@@ -33,8 +33,6 @@
         
         <template is="dom-if" if="[[user]]">
             <paper-button on-tap="logout" hidden$="[[!user]]">Sign out</paper-button>
-            <h2>Welcome [[user.displayName]]</h2>
-            
         </template>
         <paper-button raised on-tap="login" hidden$="[[user]]">Sign in</paper-button>
         

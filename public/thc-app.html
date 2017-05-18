@@ -131,7 +131,7 @@
     <!-- <iron-pages selected="[[page]]" attr-for-selected="name" id="iron-pages" style="width:100%; height: 100%;"> -->
     <!-- </iron-pages> -->
     <view-landing hidden$="[[loggedIn]]"></view-landing>
-    <view-main hidden$="[[!loggedIn]]"></view-main>
+    <view-main user="{{user}}" hidden$="[[!loggedIn]]"></view-main>
     
   </template>
 
