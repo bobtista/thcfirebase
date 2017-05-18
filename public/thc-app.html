@@ -123,7 +123,7 @@
           <a href="#">Travel Hackers Club</a>
         </span>
         <div class="tabs">
-          <paper-button on-tap="_toggleMain">View main</paper-button>
+          <paper-button on-tap="_loginToggle">Test Login/out</paper-button>
           <my-login user={{user}}></my-login>
         </div>
       </app-toolbar>
@@ -142,16 +142,16 @@
 
       properties: {
         // user object will come from child-element my-login
+        // when logged out it gets set to null
         user: {
-          type: Object
+          type: Object,
+          value: null,
+          observer: "_computeLoggedIn"
         },
 
-        // why you no work??????????!!!!!!!!!!!
-        // _computeLoggedIn() will return false, but loggedIn will be undefined
         loggedIn: {
           type: Boolean,
-          value: false,
-          computed: '_computeLoggedIn(user)'
+          value: false
         },
 
         // app-route stuff if I end up using that
@@ -167,15 +167,18 @@
         // },
       },
 
-      _computeLoggedIn: function(user){
-        return "undefined" === typeof user;
+      _computeLoggedIn: function(){
+        this.user ? this.loggedIn = true : this.loggedIn = false;
+      },
+
+      _loginToggle: function(){
+        this.loggedIn = !this.loggedIn;
       },
 
       // if I want to use login buttons from child elements my-login or view-landing
       // do I need to use custom events?
       listeners: {
-        'login': '_logIn',
-        'logout': '_logOut'
+        'toggleLogin': '_loginToggle',
       },
 
     });

@@ -18,8 +18,8 @@
                 height: 100%;
               }
             paper-button {
-                @apply(--layout-vertical);
-                @apply(--layout-center-center);
+                /*@apply(--layout-vertical);
+                @apply(--layout-center-center);*/
               text-transform: none;
             }
         </style>
@@ -30,11 +30,15 @@
             status-known="{{statusKnown}}"
             provider="google">
         </firebase-auth>
+        
         <template is="dom-if" if="[[user]]">
+            <paper-button on-tap="logout" hidden$="[[!user]]">Sign out</paper-button>
             <h2>Welcome [[user.displayName]]</h2>
+            
         </template>
         <paper-button raised on-tap="login" hidden$="[[user]]">Sign in</paper-button>
-        <paper-button on-tap="logout" hidden$="[[!user]]">Sign out</paper-button>
+        
+        
     </template>
 
     <script>
@@ -42,7 +46,8 @@
         is: 'my-login',
         properties: {
             user: {
-                type: Object
+                type: Object,
+                notify: true
             },
             statusKnown: {
                 type: Object
